@@ -1,3 +1,35 @@
-<script async src="https://cse.google.com/cse.js?cx=000721e8b862a4cc8">
-</script>
-<div class="gcse-search"></div>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #iframeContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+
+  #leftIframe {
+    width: 50%;
+    height: 100%;
+  }
+
+  #rightIframe {
+    width: 50%;
+    height: 100%;
+  }
+</style>
+</head>
+<body>
+  <div id="iframeContainer">
+    <iframe id="leftIframe" src="https://news.google.com/home?hl=es-419&gl=CO&ceid=CO:es-419"></iframe>
+    <iframe id="rightIframe" src="https://cse.google.com/cse.js?cx=000721e8b862a4cc8"></iframe>
+  </div>
+</body>
+</html>
