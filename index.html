@@ -1,35 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  #iframeContainer {
-    display: flex;
-    height: 100%;
-    width: 100%;
-  }
-
-  #leftIframe {
-    width: 50%;
-    height: 100%;
-  }
-
-  #rightIframe {
-    width: 50%;
-    height: 100%;
-  }
-</style>
+    <meta charset="UTF-8">
+    <title>Estrellas Espaciales</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgb(5, 0, 97);
+        }
+    </style>
 </head>
 <body>
-  <div id="iframeContainer">
-    <iframe id="leftIframe" src="https://news.google.com/home?hl=es-419&gl=CO&ceid=CO:es-419"></iframe>
-    <iframe id="rightIframe" src="https://cse.google.com/cse.js?cx=000721e8b862a4cc8"></iframe>
-  </div>
+    <audio autoplay loop>
+        <source src="https://hoshizorista.github.io/music.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <script>
+        let estrellas = [];
+        let meteoritos = [];
+      
+        function setup() {
+          createCanvas(windowWidth, windowHeight);
+          for (let i = 0; i < 300; i++) {
+            estrellas.push(new Estrella());
+          }
+          frameRate(30);
+        }
+      
+        function draw() {
+          background(0, 0, 15);
+          
+          if (random() < 0.02) { // Aumenta la probabilidad para más meteoritos
+            meteoritos.push(new Meteorito(random(width), -50)); // Posición inicial aleatoria en la parte superior
+          }
+          
+          estrellas.forEach(estrella => {
+            estrella.actualizar();
+            estrella.mostrar();
+          });
+          
+          meteoritos.forEach((meteorito, index) => {
+            meteorito.actualizar();
+            meteorito.mostrar();
+            if (meteorito.fueraDePantalla()) {
+              meteoritos.splice(index, 1);
+            }
+          });
+        }
+      
+        function Estrella() {
+          this.x = random(width);
+          this.y = random(height);
+          this.size = random(1, 3);
+          this.velocidadX = random(-1, 1);
+          this.velocidadY = random(-1, 1);
+      
+          this.actualizar = function() {
+            this.x += this.velocidadX;
+            this.y += this.velocidadY;
+      
+            if (this.x < 0 || this.x > width) this.velocidadX *= -1;
+            if (this.y < 0 || this.y > height) this.velocidadY *= -1;
+          };
+      
+          this.mostrar = function() {
+            noStroke();
+            fill(255);
+            ellipse(this.x, this.y, this.size);
+          };
+        }
+        
+        function Meteorito(x, y) {
+          this.x = x;
+          this.y = y;
+          this.size = random(5, 10);
+          this.velocidadX = random(1, 3); // Asegura que siempre se mueva en diagonal hacia abajo
+          this.velocidadY = random(4, 8);
+          this.brightness = random(100, 200);
+          
+          this.actualizar = function() {
+            this.x += this.velocidadX;
+            this.y += this.velocidadY;
+            this.brightness = random(100, 200); // Hace que el meteorito titile
+          };
+          
+          this.mostrar = function() {
+            // Halo/Estela que se desvanece
+            for (let i = this.size; i > 0; i -= 0.2) {
+              let alpha = map(i, 0, this.size, 0, 255);
+              fill(255, 255, 255, alpha);
+              ellipse(this.x - i * (this.velocidadX / 2), this.y - i * (this.velocidadY / 2), this.size - i, this.size - i);
+            }
+            fill(255, this.brightness, this.brightness + 55); // Color blanco azulado para el meteorito
+            ellipse(this.x, this.y, this.size);
+          };
+          
+          this.fueraDePantalla = function() {
+            return this.y > height + this.size || this.x < -this.size || this.x > width + this.size;
+          };
+        }
+    </script>
 </body>
 </html>
