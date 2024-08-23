@@ -27,18 +27,18 @@
             padding: 20px;
         }
         #carta {
-    background: linear-gradient(135deg, #f1cbff, #f1cbff, #d9b1e7);
-    background-size: cover;
-    padding: 30px; /* Aumentar un poco el padding */
-    border-radius: 15px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-    width: 100%;
-    max-width: 950px; /* Aumentar el max-width */
-    color: #fff;
-    text-align: left;
-    border: 1px solid #ffd700;
-    box-sizing: border-box;
-}
+            background: linear-gradient(135deg, #f1cbff, #f1cbff, #d9b1e7);
+            background-size: cover;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 950px;
+            color: #fff;
+            text-align: left;
+            border: 1px solid #ffd700;
+            box-sizing: border-box;
+        }
 
         h3 {
             color: #961364;
@@ -56,19 +56,20 @@
             font-size: 2.0rem;
             font-style: italic;
             color: rgb(0, 0, 0);
-            margin: 10px 0; /* Reducir el margen entre párrafos */
+            margin: 10px 0;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
         }
         #buttons {
             margin-top: 20px;
+            font-size: 3.3rem;
         }
         #descargar, #pegar {
             background: #ffd700;
             color: #1a2a6c;
             border: none;
-            padding: 10px 20px;
+            padding: 16px 32px; /* Aumentar tamaño de padding */
             border-radius: 5px;
-            font-size: 1rem;
+            font-size: 2rem; /* Aumentar tamaño de fuente */
             cursor: pointer;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             margin: 5px;
@@ -117,28 +118,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         document.getElementById('descargar').addEventListener('click', async function() {
-    // Esperar a que todas las fuentes se carguen
-    await document.fonts.ready;
+            await document.fonts.ready;
 
-    // Comprobar si la fuente 'Gideon Roman' está cargada
-    const isFontLoaded = document.fonts.check("12px 'Gideon Roman'");
-    if (!isFontLoaded) {
-        console.warn("La fuente 'Gideon Roman' no se ha cargado correctamente.");
-    }
+            const isFontLoaded = document.fonts.check("12px 'Gideon Roman'");
+            if (!isFontLoaded) {
+                console.warn("La fuente 'Gideon Roman' no se ha cargado correctamente.");
+            }
 
-    html2canvas(document.getElementById('carta'), {
-        useCORS: true,
-        scale: 2, // Aumenta la calidad de la imagen
-        fontDisplay: 'swap' // Permite el uso de fuentes alternativas mientras se carga la principal
-    }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'mensajedehoy.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    }).catch(function(error) {
-        console.error('Error:', error);
-    });
-});
+            html2canvas(document.getElementById('carta'), {
+                useCORS: true,
+                scale: 2,
+                fontDisplay: 'swap'
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'mensajedehoy.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }).catch(function(error) {
+                console.error('Error:', error);
+            });
+        });
 
         document.getElementById('pegar').addEventListener('click', async function() {
             try {
